@@ -3,6 +3,7 @@ import argparse
 from Translator.baidu_translator import BaiduTranslator
 from Translator.youdao_translator import YoudaoTranslator
 from Translator.google_translator import GoogleTranslator
+from Translator.bing_translator import BingTranslator
 
 
 def main():
@@ -16,7 +17,8 @@ def main():
     engines = {
         'google': GoogleTranslator,
         'baidu': BaiduTranslator,
-        'youdao': YoudaoTranslator
+        'youdao': YoudaoTranslator,
+        'bing': BingTranslator
     }
     if engine in engines.keys():
         translator = engines[engine](source, target)
