@@ -1,6 +1,7 @@
 import os
 import sys
 import traceback
+from configparser import ConfigParser
 
 
 class Translator(object):
@@ -8,9 +9,14 @@ class Translator(object):
         self.name = ''
         self.lang_to = lang_to
         self.lang_from = lang_from
-        self.config_path = os.path.join(os.path.split(os.path.abspath(sys.argv[0]))[0], 'config.ini')
+        config_path = os.path.join(os.path.split(os.path.abspath(sys.argv[0]))[0], 'config.ini')
+        self.config = ConfigParser()
+        self.config.read(config_path)
 
     def translate(self, text):
+        if text == '':
+            return ''
+        text = text.replace('- ', '')
         try:
             text = self.__translate__(text)
         except:

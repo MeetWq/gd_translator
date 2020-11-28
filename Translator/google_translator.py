@@ -1,6 +1,5 @@
 import requests
 import json
-from configparser import ConfigParser
 from .translator import Translator
 
 
@@ -8,11 +7,22 @@ class GoogleTranslator(Translator):
     def __init__(self, lang_from, lang_to):
         super().__init__(lang_from, lang_to)
         self.name = 'google'
-        config = ConfigParser()
-        config.read(self.config_path)
-        self.api_key = config['google']['api_key']
+        self.api_key = self.config['google']['api_key']
+
+    def detect_language(self, text):
+        params = {
+            'q': text,
+            'key': self.api_key
+        }
+        url = 'https://translation.googleapis.com/language/translate/v2/detect'
+        response = requests.get(url, params=params).text
+        json_data = json.loads(response)
+        lang = json_data['data']['detections'][0][0]['language']
+        return lang
 
     def __translate__(self, text):
+        if self.lang_from == 'auto':
+            self.lang_from = self.detect_language(text)
         params = {
             'q': text,
             'source': self.lang_from,

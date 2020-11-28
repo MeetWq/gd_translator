@@ -2,7 +2,6 @@ import requests
 import time
 import hashlib
 import json
-from configparser import ConfigParser
 from .translator import Translator
 
 
@@ -10,10 +9,8 @@ class YoudaoTranslator(Translator):
     def __init__(self, lang_from, lang_to):
         super().__init__(lang_from, lang_to)
         self.name = 'youdao'
-        config = ConfigParser()
-        config.read(self.config_path)
-        self.app_id = config['youdao']['app_id']
-        self.api_key = config['youdao']['api_key']
+        self.app_id = self.config['youdao']['app_id']
+        self.api_key = self.config['youdao']['api_key']
 
     def translate(self, query_text):
         if query_text == '':

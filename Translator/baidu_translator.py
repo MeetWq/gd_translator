@@ -2,7 +2,6 @@ import requests
 import time
 import hashlib
 import json
-from configparser import ConfigParser
 from .translator import Translator
 
 
@@ -10,10 +9,8 @@ class BaiduTranslator(Translator):
     def __init__(self, lang_from, lang_to):
         super().__init__(lang_from, lang_to)
         self.name = 'baidu'
-        config = ConfigParser()
-        config.read(self.config_path)
-        self.app_id = config['baidu']['app_id']
-        self.api_key = config['baidu']['api_key']
+        self.app_id = self.config['baidu']['app_id']
+        self.api_key = self.config['baidu']['api_key']
 
     def __translate__(self, text):
         salt = str(round(time.time() * 1000))
